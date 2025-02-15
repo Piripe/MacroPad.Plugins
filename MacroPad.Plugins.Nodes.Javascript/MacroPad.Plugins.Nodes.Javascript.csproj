@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<BaseOutputPath>..\..\MacroPad\MacroPad\bin\</BaseOutputPath>
+		<OutDir>$([System.IO.Path]::Combine('$(BaseOutputPath)', '$(Configuration)', '$(TargetFramework)', 'plugins', '$(AssemblyName)'))</OutDir>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="MacroPad.Shared">
+			<HintPath>$([System.IO.Path]::Combine('$(BaseOutputPath)', '$(Configuration)', '$(TargetFramework)', 'MacroPad.Shared.dll'))</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="plugin.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+﻿using MacroPad.Shared.Plugin;
+using MacroPad.Shared.Plugin.Nodes.Components;
+using MacroPad.Shared.Plugin.Protocol;
+using OBSWebsocketDotNet;
+using OBSWebsocketDotNet.Types;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MacroPad.Plugins.Nodes.OBS
+{
+    internal class OBSProtocol : IProtocol
+    {
+        public string Name => "OBS Protocol";
+
+        public string Id => "MacroPad.Plugins.Nodes.OBS.OBSProtocol";
+
+        public event EventHandler<DeviceDetectedEventArgs>? DeviceDetected;
+        public event EventHandler<DeviceDetectedEventArgs>? DeviceDisconnected;
+
+        public static OBSWebsocket Client { get; } = new OBSWebsocket();
+        public static void Run(Action<OBSWebsocket> x)
+        {
+            if (Client.IsConnected) x.Invoke(Client);
+        }
+        public static List<SceneBasicInfo> Scenes = [];
+        public static SceneBasicInfo? GetObsScene(string name) => Scenes.FirstOrDefault(x=> x.Name == name);
+
+        public void Enable()
+        {
+            // Init NodeTypes
+            ComboBox? sceneCB = NodeTypes.obsSceneType.Components[0] as ComboBox;
+
+            // Open WS
+            if (!Client.IsConnected)
+            {
+                Client.Connected += (s, e) =>
+                {
+                    if (sceneCB != null)
+                    {
+                        Scenes = Client.GetSceneList().Scenes;
+                        sceneCB.Items = Scenes.Select(x=>x.Name).ToArray();
+                    }
+                };
+                Client.SceneListChanged += (s, e) =>
+                {
+                    Scenes = Client.GetSceneList().Scenes;
+                };
+                Client.ConnectAsync("ws://127.0.0.1:4455", "");
+            }
+        }
+
+    }
+}

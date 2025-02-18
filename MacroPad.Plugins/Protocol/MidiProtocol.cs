@@ -1,4 +1,5 @@
 ﻿using Commons.Music.Midi;
+using Commons.Music.Midi.Alsa;
 using Commons.Music.Midi.PortMidi;
 using Commons.Music.Midi.RtMidi;
 using Commons.Music.Midi.WinMM;
@@ -19,29 +20,50 @@ namespace MacroPad.Plugins.Protocol.Midi.Protocol
         public static string ProtocolId => "MacroPad.Plugins.Protocol.Midi.MidiProtocol";
         public string Id => ProtocolId;
 
-        private IMidiAccess _midiAccess = new WinMMMidiAccess();//(RtMidiAccess)MidiAccessManager.Default;
-        private List<string> _lastPorts = new List<string>();
-        private List<MidiDevice> _connectedDevices = new List<MidiDevice>();
+        private IMidiAccess? _midiAccess = null;//(RtMidiAccess)MidiAccessManager.Default;
+        private HashSet<string> _lastPorts = [];
+        private HashSet<MidiDevice> _connectedDevices = [];
 
         public event EventHandler<DeviceDetectedEventArgs>? DeviceDetected;
         public event EventHandler<DeviceDetectedEventArgs>? DeviceDisconnected;
 
+        private CancellationTokenSource? _enabled = null;
+
         public void Enable()
         {
-            
+            if (_enabled != null) throw new Exception("Can't enable an already enabled protocol.");
+            _enabled = new CancellationTokenSource();
+            _midiAccess =
+                OperatingSystem.IsWindows() ? new WinMMMidiAccess() : 
+                OperatingSystem.IsLinux() ? new AlsaMidiAccess() : new PortMidiAccess();
             _ = DetectDeviceLoop();
+        }
+        public void Disable()
+        {
+            if (_enabled == null) return;
+            _enabled.Cancel();
+            _enabled = null;
+            _lastPorts = [];
+            foreach (MidiDevice device in _connectedDevices)
+            {
+                DeviceDisconnected?.Invoke(this, new DeviceDetectedEventArgs(device));
+                device.Disconnect();
+            }
+            _connectedDevices = [];
+            _midiAccess = null;
         }
         private async Task DetectDeviceLoop()
         {
-            while (true)
+            while (!(_enabled == null || _enabled.IsCancellationRequested))
             {
+                if (_midiAccess == null) throw new Exception("No midi access.");
                 try
                 {
-                    List<IMidiPortDetails> newPorts = _midiAccess.Inputs.ToList();
+                    HashSet<IMidiPortDetails> newPorts = _midiAccess.Inputs.ToHashSet();
 
 
 
-                    _connectedDevices = _connectedDevices.FindAll(device =>
+                    _connectedDevices = _connectedDevices.Where(device =>
                     {
                         bool isConnected = newPorts.Any(x => x.Id == device.InputDevice.Id && x.Name == device.InputDevice.Name);
                         if (!isConnected)
@@ -49,9 +71,9 @@ namespace MacroPad.Plugins.Protocol.Midi.Protocol
                             DeviceDisconnected?.Invoke(this, new DeviceDetectedEventArgs(device));
                         }
                         return isConnected;
-                    });
+                    }).ToHashSet();
 
-                    newPorts.ForEach(port =>
+                    foreach (IMidiPortDetails port in newPorts)
                     {
                         if (!_lastPorts.Contains(port.Id))
                         {
@@ -63,11 +85,11 @@ namespace MacroPad.Plugins.Protocol.Midi.Protocol
 
                             DeviceDetected?.Invoke(this, new DeviceDetectedEventArgs(newDevice));
                         }
-                    });
+                    }
 
-                    _lastPorts = newPorts.Select((x) => x.Id).ToList();
+                    _lastPorts = newPorts.Select((x) => x.Id).ToHashSet();
 
-                    await Task.Delay(5000);
+                    await Task.Delay(5000, _enabled.Token).ContinueWith((t) => { });
                 }catch(Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());

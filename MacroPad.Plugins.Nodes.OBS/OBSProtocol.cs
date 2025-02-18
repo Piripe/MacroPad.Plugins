@@ -20,36 +20,39 @@ namespace MacroPad.Plugins.Nodes.OBS
         public event EventHandler<DeviceDetectedEventArgs>? DeviceDetected;
         public event EventHandler<DeviceDetectedEventArgs>? DeviceDisconnected;
 
-        public static OBSWebsocket Client { get; } = new OBSWebsocket();
+        public static OBSWebsocket? Client { get; private set; } = new OBSWebsocket();
         public static void Run(Action<OBSWebsocket> x)
         {
-            if (Client.IsConnected) x.Invoke(Client);
+            if (Client != null && Client.IsConnected) x.Invoke(Client);
         }
         public static List<SceneBasicInfo> Scenes = [];
-        public static SceneBasicInfo? GetObsScene(string name) => Scenes.FirstOrDefault(x=> x.Name == name);
+        public static SceneBasicInfo? GetObsScene(string name) => Scenes.FirstOrDefault(x => x.Name == name);
 
         public void Enable()
         {
-            // Init NodeTypes
-            ComboBox? sceneCB = NodeTypes.obsSceneType.Components[0] as ComboBox;
+            if (Client == null || Client.IsConnected) return;
 
             // Open WS
-            if (!Client.IsConnected)
-            {
-                Client.Connected += (s, e) =>
+            Client.Connected += (s, e) =>
                 {
-                    if (sceneCB != null)
+                    if (NodeTypes.obsSceneType.Components[0] is ComboBox sceneCB)
                     {
                         Scenes = Client.GetSceneList().Scenes;
-                        sceneCB.Items = Scenes.Select(x=>x.Name).ToArray();
+                        sceneCB.Items = Scenes.Select(x => x.Name).ToArray();
                     }
                 };
-                Client.SceneListChanged += (s, e) =>
-                {
-                    Scenes = Client.GetSceneList().Scenes;
-                };
-                Client.ConnectAsync("ws://127.0.0.1:4455", "");
-            }
+            Client.SceneListChanged += (s, e) =>
+            {
+                Scenes = Client.GetSceneList().Scenes;
+            };
+            Client.ConnectAsync("ws://127.0.0.1:4455", "");
+
+        }
+        public void Disable()
+        {
+            if (Client == null) return;
+            Client.Disconnect();
+            Client = null;
         }
 
     }

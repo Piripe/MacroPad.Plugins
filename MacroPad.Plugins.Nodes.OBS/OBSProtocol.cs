@@ -1,14 +1,8 @@
 ﻿using MacroPad.Shared.Plugin;
-using MacroPad.Shared.Plugin.Nodes.Components;
+using MacroPad.Shared.Plugin.Components;
 using MacroPad.Shared.Plugin.Protocol;
 using OBSWebsocketDotNet;
 using OBSWebsocketDotNet.Types;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MacroPad.Plugins.Nodes.OBS
 {

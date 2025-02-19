@@ -1,11 +1,6 @@
 ﻿using MacroPad.Shared.Device;
 using MacroPad.Shared.Plugin.Nodes;
 using OBSWebsocketDotNet.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MacroPad.Plugins.Nodes.OBS.Nodes
 {
@@ -17,7 +12,7 @@ namespace MacroPad.Plugins.Nodes.OBS.Nodes
 
         public string Id => "SetCurrentScene";
 
-        public TypeNamePair[] Inputs => [new TypeNamePair(typeof(SceneBasicInfo),"Scene")];
+        public TypeNamePair[] Inputs => [new(typeof(SceneBasicInfo),"Scene")];
 
         public TypeNamePair[] Outputs => [];
 

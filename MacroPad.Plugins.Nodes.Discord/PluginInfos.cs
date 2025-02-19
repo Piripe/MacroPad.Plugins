@@ -1,5 +1,6 @@
 ﻿using MacroPad.Plugins.Nodes.Discord;
 using MacroPad.Shared.Plugin;
+using MacroPad.Shared.Plugin.Settings;
 
 namespace MacroPad.Plugins.Nodes.VoiceMeeter
 {
@@ -17,10 +18,11 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter
 
         public string? SourceUrl => null;
 
-        public IProtocol[] Protocols => new IProtocol[0];
+        public IProtocol[] Protocols => [];
 
-        public INodeCategory[] NodeCategories => new INodeCategory[] { new DiscordCategory() };
+        public INodeCategory[] NodeCategories => [new DiscordCategory()];
 
-        public NodeType[] NodeTypes => new NodeType[0];
+        public NodeType[] NodeTypes => [];
+        public ISettingsComponent[] Settings => [];
     }
 }

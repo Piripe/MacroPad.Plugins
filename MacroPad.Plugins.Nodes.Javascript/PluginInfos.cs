@@ -1,5 +1,5 @@
 ﻿using MacroPad.Shared.Plugin;
-using MacroPad.Shared.Plugin.Protocol;
+using MacroPad.Shared.Plugin.Settings;
 
 namespace MacroPad.Plugins.Nodes.Javascript
 {
@@ -17,10 +17,11 @@ namespace MacroPad.Plugins.Nodes.Javascript
 
         public string? SourceUrl => null;
 
-        public IProtocol[] Protocols => new IProtocol[0];
+        public IProtocol[] Protocols => [];
 
-        public INodeCategory[] NodeCategories => new INodeCategory[0];
+        public INodeCategory[] NodeCategories => [];
 
-        public NodeType[] NodeTypes => new NodeType[0];
+        public NodeType[] NodeTypes => [];
+        public ISettingsComponent[] Settings => [];
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MacroPad.Shared.Plugin;
+using MacroPad.Shared.Plugin.Settings;
 
 namespace MacroPad.Plugins.Nodes.VoiceMeeter
 {
@@ -21,5 +22,6 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter
         public INodeCategory[] NodeCategories => new INodeCategory[] { new VoiceMeeterCategory() };
 
         public NodeType[] NodeTypes => new NodeType[0];
+        public ISettingsComponent[] Settings => [];
     }
 }

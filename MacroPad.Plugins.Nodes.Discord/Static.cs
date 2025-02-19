@@ -12,7 +12,7 @@ namespace MacroPad.Plugins.Nodes.Discord
     {
         public static DiscordRpcClient client = new DiscordRpcClient("466217331270483969");
 
-        public static async void Init()
+        public static void Init()
         {
             client.Initialize();
             

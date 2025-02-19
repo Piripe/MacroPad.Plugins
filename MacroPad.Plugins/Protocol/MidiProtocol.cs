@@ -1,16 +1,10 @@
 ﻿using Commons.Music.Midi;
 using Commons.Music.Midi.Alsa;
 using Commons.Music.Midi.PortMidi;
-using Commons.Music.Midi.RtMidi;
 using Commons.Music.Midi.WinMM;
 using MacroPad.Shared.Plugin;
 using MacroPad.Shared.Plugin.Protocol;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MacroPad.Plugins.Protocol.Midi.Protocol
 {
@@ -20,7 +14,9 @@ namespace MacroPad.Plugins.Protocol.Midi.Protocol
         public static string ProtocolId => "MacroPad.Plugins.Protocol.Midi.MidiProtocol";
         public string Id => ProtocolId;
 
-        private IMidiAccess? _midiAccess = null;//(RtMidiAccess)MidiAccessManager.Default;
+#pragma warning disable CS0618 // Type or member is obsolete
+        private IMidiAccess? _midiAccess = null;
+#pragma warning restore CS0618 // Type or member is obsolete
         private HashSet<string> _lastPorts = [];
         private HashSet<MidiDevice> _connectedDevices = [];
 

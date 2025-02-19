@@ -1,20 +1,13 @@
 ﻿using Commons.Music.Midi;
-using Commons.Music.Midi.RtMidi;
-using MacroPad.Plugins.Protocol.Midi.Protocol;
 using MacroPad.Shared.Plugin.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MacroPad.Plugins.Protocol.Midi.Protocol
 {
-    internal class MidiDevice : IProtocolDevice
+#pragma warning disable CS0618 // Type or member is obsolete
+    internal class MidiDevice(IMidiPortDetails inputDevice, IMidiPortDetails? outputDevice, IMidiAccess access) : IProtocolDevice
     {
-        public string Name { get; }
-        public string Id { get; }
+        public string Name { get; } = inputDevice.Name;
+        public string Id { get; } = inputDevice.Manufacturer + "." + inputDevice.Name;
 
         public string Protocol => MidiProtocol.ProtocolId;
 
@@ -22,12 +15,12 @@ namespace MacroPad.Plugins.Protocol.Midi.Protocol
 
         public event EventHandler<DeviceInputEventArgs>? DeviceInput;
 
-        internal IMidiPortDetails InputDevice { get; }
-        internal IMidiPortDetails? OutputDevice { get; }
+        internal IMidiPortDetails InputDevice { get; } = inputDevice;
+        internal IMidiPortDetails? OutputDevice { get; } = outputDevice;
 
         private IMidiInput? _input;
         private IMidiOutput? _output;
-        private IMidiAccess _access;
+        private readonly IMidiAccess _access = access;
 
         public async void Connect()
         {
@@ -88,14 +81,6 @@ namespace MacroPad.Plugins.Protocol.Midi.Protocol
         {
             throw new NotImplementedException();
         }
-
-        public MidiDevice(IMidiPortDetails inputDevice, IMidiPortDetails? outputDevice, IMidiAccess access) {
-            Name = inputDevice.Name;
-            Id = inputDevice.Manufacturer + "." + inputDevice.Name;
-
-            InputDevice = inputDevice;
-            OutputDevice = outputDevice;
-            _access = access;
-        }
     }
+#pragma warning restore CS0618 // Type or member is obsolete
 }

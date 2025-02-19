@@ -1,5 +1,6 @@
 ﻿using MacroPad.Plugins.Protocol.Midi.Protocol;
 using MacroPad.Shared.Plugin;
+using MacroPad.Shared.Plugin.Settings;
 
 namespace MacroPad.Plugins.Protocol.Midi
 {
@@ -17,10 +18,11 @@ namespace MacroPad.Plugins.Protocol.Midi
 
         public string? SourceUrl => null;
 
-        public IProtocol[] Protocols => new IProtocol[] { new MidiProtocol() };
+        public IProtocol[] Protocols => [new MidiProtocol()];
 
-        public INodeCategory[] NodeCategories => new INodeCategory[0];
+        public INodeCategory[] NodeCategories => [];
 
-        public NodeType[] NodeTypes => new NodeType[0];
+        public NodeType[] NodeTypes => [];
+        public ISettingsComponent[] Settings => [];
     }
 }

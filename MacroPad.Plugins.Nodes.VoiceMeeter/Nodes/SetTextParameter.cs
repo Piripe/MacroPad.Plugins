@@ -1,11 +1,5 @@
 ﻿using MacroPad.Shared.Device;
-using MacroPad.Shared.Plugin.Nodes.Components;
 using MacroPad.Shared.Plugin.Nodes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
 {
@@ -17,15 +11,15 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
 
         public string Id => "SetTextParameter";
 
-        public TypeNamePair[] Inputs => new TypeNamePair[] { new TypeNamePair(typeof(string), ""), new TypeNamePair(typeof(string), "") };
+        public TypeNamePair[] Inputs => [new(typeof(string), ""), new(typeof(string), "")];
 
-        public TypeNamePair[] Outputs => new TypeNamePair[] { };
+        public TypeNamePair[] Outputs => [];
 
         public int RunnerOutputCount => 1;
 
-        public string[] RunnerOutputsName => new string[0];
+        public string[] RunnerOutputsName => [];
 
-        public INodeComponent[] Components => new INodeComponent[] { };
+        public INodeComponent[] Components => [];
 
         public bool IsVisible(IDeviceLayoutButton button, IDeviceOutput output) => true;
 
@@ -33,7 +27,7 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
         {
             VoiceMeeterRemote.SetParameter((string)resource.GetValue(0), (string)resource.GetValue(1));
 
-            return new NodeRunnerResult { RunnerOutputIndex = 0, Results = new object[0] };
+            return new NodeRunnerResult { RunnerOutputIndex = 0, Results = [] };
         }
     }
 }

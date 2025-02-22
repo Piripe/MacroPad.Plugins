@@ -1,6 +1,7 @@
 ﻿using MacroPad.Shared.Device;
 using MacroPad.Shared.Plugin.Nodes;
 using MacroPad.Shared.Plugin.Components;
+using MacroPad.Shared.Plugin;
 
 namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
 {
@@ -23,7 +24,7 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
         public INodeComponent[] Components => [ 
             new ComboBox()
             {
-               GetItems = (IResourceManager resource, IDeviceLayoutButton button, IDeviceOutput output) => {
+               GetItems = (IResourceManager resource) => {
                    Static.Update();
                    return Static.BusesName;
                },
@@ -34,7 +35,7 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
 
         public bool IsVisible(IDeviceLayoutButton button, IDeviceOutput output) => true;
 
-        public NodeRunnerResult Run(IResourceManager resource)
+        public NodeRunnerResult Run(INodeResourceManager resource)
         {
             VoiceMeeterRemote.SetParameter($"Bus({resource.GetData<int>("v")}).Gain", decimal.ToSingle((decimal)resource.GetValue(0)));
 

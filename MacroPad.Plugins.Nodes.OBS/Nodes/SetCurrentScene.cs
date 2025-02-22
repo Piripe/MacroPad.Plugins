@@ -24,7 +24,7 @@ namespace MacroPad.Plugins.Nodes.OBS.Nodes
 
         public bool IsVisible(IDeviceLayoutButton button, IDeviceOutput output) => true;
 
-        public NodeRunnerResult Run(IResourceManager r)
+        public NodeRunnerResult Run(INodeResourceManager r)
         {
             OBSProtocol.Run(x => x.SetCurrentProgramScene(((SceneBasicInfo)r.GetValue(0)).Name));
 

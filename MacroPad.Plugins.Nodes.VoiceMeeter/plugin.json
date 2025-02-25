@@ -1,3 +1,10 @@
 ﻿{
-  "Main": "MacroPad.Plugins.Nodes.VoiceMeeter.dll"
+  "filename": "MacroPad.Plugins.Nodes.VoiceMeeter.dll",
+  "name": "VoiceMeeter",
+  "description": "A plugin that allows you to interact with VoiceMeeter",
+  "version": "1.0.0",
+  "author": "Piripe",
+  "supportedPlatforms": [ "Windows" ],
+  "iconType": "Image",
+  "icon": "icon.png"
 }

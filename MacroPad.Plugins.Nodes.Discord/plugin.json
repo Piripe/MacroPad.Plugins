@@ -1,3 +1,10 @@
 ﻿{
-  "Main": "MacroPad.Plugins.Nodes.Discord.dll"
+  "filename": "MacroPad.Plugins.Nodes.Discord.dll",
+  "name": "Discord",
+  "description": "A plugin that allows you to interact with Discord",
+  "version": "1.0.0",
+  "author": "Piripe",
+  "supportedPlatforms": [],
+  "iconType": "Image",
+  "icon": "icon.png"
 }

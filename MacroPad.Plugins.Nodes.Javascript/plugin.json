@@ -1,3 +1,10 @@
 ﻿{
-  "Main": "MacroPad.Plugins.Nodes.Javascript.dll"
+  "filename": "MacroPad.Plugins.Nodes.Javascript.dll",
+  "name": "JavaScript",
+  "description": "A plugin that allows you to run JavaScript",
+  "version": "1.0.0",
+  "author": "Piripe",
+  "supportedPlatforms": [],
+  "iconType": "Image",
+  "icon": "icon.png"
 }

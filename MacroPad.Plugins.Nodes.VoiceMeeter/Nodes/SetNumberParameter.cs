@@ -24,7 +24,7 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
 
         public bool IsVisible(IDeviceLayoutButton button, IDeviceOutput output) => true;
 
-        public NodeRunnerResult Run(IResourceManager resource)
+        public NodeRunnerResult Run(INodeResourceManager resource)
         {
             string value = (string)resource.GetValue(0);
             if (value != null) _ = VoiceMeeterRemote.SetParameter(value, decimal.ToSingle((decimal)resource.GetValue(1)));

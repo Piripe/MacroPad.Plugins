@@ -1,3 +1,10 @@
 ﻿{
-  "Main": "MacroPad.Plugins.Nodes.OBS.dll"
+  "filename": "MacroPad.Plugins.Nodes.OBS.dll",
+  "name": "OBS",
+  "description": "A plugin that allows you to interact with OBS",
+  "version": "1.0.0",
+  "author": "Piripe",
+  "supportedPlatforms": [ "Windows", "Linux", "Darwin" ],
+  "iconType": "Image",
+  "icon": "icon.png"
 }

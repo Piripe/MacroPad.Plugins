@@ -18,7 +18,7 @@ namespace MacroPad.Plugins.Nodes.VoiceMeeter.Nodes
         public INodeComponent[] Components => [];
 
         public bool IsVisible(IDeviceLayoutButton button, IDeviceOutput output) => true;
-        public object[] GetOutputs(IResourceManager resource)
+        public object[] GetOutputs(INodeResourceManager resource)
         {
             string value = (string)resource.GetValue(0);
             if (value != null) return [VoiceMeeterRemote.GetString(value)];

@@ -1,3 +1,10 @@
 ﻿{
-  "Main": "MacroPad.Plugins.Protocol.Midi.dll"
+  "filename": "MacroPad.Plugins.Protocol.Midi.dll",
+  "name": "MIDI Devices",
+  "description": "A plugin that allows you to connect any MIDI device",
+  "version": "1.0.0",
+  "author": "Piripe",
+  "supportedPlatforms": [ "Windows", "Linux", "Darwin" ],
+  "iconType": "Image",
+  "icon": "icon.png"
 }
